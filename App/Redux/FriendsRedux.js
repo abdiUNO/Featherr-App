@@ -40,7 +40,6 @@ export const request = state =>
 // successful api lookup
 export const success = (state, action) => {
   const { friends } = action
-  console.log(action)
   return state.merge({ fetching: false, error: null, friends })
 }
 

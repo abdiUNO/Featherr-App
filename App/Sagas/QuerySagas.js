@@ -16,7 +16,7 @@ import UsersActions from '../Redux/QueryRedux'
 
 export function* queryUsers(api, action) {
   const { query } = action
-  console.log(action)
+
   // get current data from Store
   // const currentData = yield select(UsersSelectors.getData)
   // make the call to the api
@@ -24,7 +24,6 @@ export function* queryUsers(api, action) {
 
   // success?
   if (response.ok) {
-    console.log(response)
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(UsersActions.queryUsersSuccess(response.data.users))
