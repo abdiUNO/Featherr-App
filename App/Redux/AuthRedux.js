@@ -9,7 +9,8 @@ const { Types, Creators } = createActions({
   authFailure: ['error'],
   loginRequest: ['email', 'password'],
   loginSuccess: ['user'],
-  loginFailure: ['error']
+  loginFailure: ['error'],
+  flushErrors: ['']
 })
 
 export const AuthTypes = Types
@@ -49,8 +50,11 @@ const loginSuccess = (state, user) =>
 
 // Something went wrong somewhere.
 export const failure = (state, { error }) => {
-  console.log(error)
   return state.merge({ fetching: false, error, payload: null })
+}
+
+export const flush = state => {
+  return state.merge({ error: null, fetching: false })
 }
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -62,5 +66,6 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.LOGIN_REQUEST]: request,
   [Types.LOGIN_SUCCESS]: loginSuccess,
-  [Types.LOGIN_FAILURE]: failure
+  [Types.LOGIN_FAILURE]: failure,
+  [Types.FLUSH_ERRORS]: flush
 })

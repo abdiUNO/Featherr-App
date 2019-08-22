@@ -20,6 +20,7 @@ import AuthLoadingScreen from '../Containers/AuthLoading'
 // import GroupsScreen from '../Containers/GroupsScreen'
 import ChatKitScreen from '../Containers/ChatKitScreen'
 import WelcomeScreen from '../Containers/WelcomeScreen'
+import SignUpScreen from '../Containers/SignUpScreen'
 
 import colors from '../Themes/Colors'
 import IconWithBadge from '../Components/IconWithBadge'
@@ -176,7 +177,7 @@ const getCurrentRouteName = navigationState => {
 }
 
 const AuthNavigator = createStackNavigator(
-  { WelcomeScreen, LoginScreen },
+  { WelcomeScreen, SignUpScreen, LoginScreen },
   {
     headerMode: 'none',
     animationEnabled: true

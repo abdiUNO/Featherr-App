@@ -19,7 +19,7 @@ class AuthLoadingScreen extends React.Component {
     if (authData && authData.user) {
       navigation.navigate('TabNav')
     } else {
-      navigation.navigate('LoginScreen')
+      navigation.navigate('WelcomeScreen')
     }
   }
 

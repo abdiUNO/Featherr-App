@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
-import { ScrollView, View, KeyboardAvoidingView } from 'react-native'
+import {
+  ScrollView,
+  View,
+  KeyboardAvoidingView,
+  Text,
+  Image,
+  TouchableOpacity
+} from 'react-native'
 import { connect } from 'react-redux'
-import { Input, Button } from 'react-native-elements'
+import { Input, Button, Header } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import AuthActions from '../Redux/AuthRedux'
 import { NavigationActions } from 'react-navigation'
@@ -11,6 +18,7 @@ import { NavigationActions } from 'react-navigation'
 
 // Styles
 import styles from './Styles/LoginScreenStyle'
+import Images from '../Themes/Images'
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -31,70 +39,98 @@ class LoginScreen extends Component {
     return re.test(email)
   }
 
+  onSubmit = () => {
+    const { email, password } = this.state
+    const { attemptLogin } = this.props
+
+    attemptLogin(email, password)
+  }
+
   render() {
     const { email, password, emailValid, showLoading } = this.state
-    const { attemptLogin, fetching } = this.props
+    const { fetching } = this.props
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView>
+        <Header
+          backgroundColor="#05BEAE"
+          placement="left"
+          leftComponent={{
+            icon: 'chevron-left',
+            color: '#fff',
+            underlayColor: 'transparent',
+            onPress: () => {
+              this.props.navigation.goBack()
+            }
+          }}
+        />
         <KeyboardAvoidingView behavior="position">
-          <View>
-            <Input
-              containerStyle={{ marginTop: 25 }}
-              onChangeText={_email => this.setState({ email: _email })}
-              value={email}
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="email-address"
-              ref={input => (this.emailInput = input)}
-              onSubmitEditing={() => {
-                this.setState({ emailValid: this.validateEmail(email) })
-                this.passwordInput.focus()
-              }}
-              onBlur={() => {
-                this.setState({ emailValid: this.validateEmail(email) })
-              }}
-              blurOnSubmit={false}
-              errorMessage={
-                emailValid ? null : 'Please enter a valid email address'
-              }
-              placeholder="Email"
-              leftIcon={
-                <Icon
-                  name="envelope"
-                  size={24}
-                  color="black"
-                  style={{ marginRight: 15 }}
-                />
-              }
-            />
-            <Input
-              containerStyle={{ marginVertical: 25 }}
-              onChangeText={password => this.setState({ password })}
-              value={password}
-              secureTextEntry
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="default"
-              returnKeyType="done"
-              ref={input => (this.passwordInput = input)}
-              blurOnSubmit
-              placeholder="Password"
-              leftIcon={
-                <Icon
-                  name="circle"
-                  size={24}
-                  color="black"
-                  style={{ marginRight: 15 }}
-                />
-              }
-            />
-            <Button
-              title="Login"
-              disabled={!emailValid || password.length < 4}
-              loading={fetching}
-              onPress={() => attemptLogin(email, password)}
-            />
+          <Image style={styles.image} source={Images.welcome} />
+
+          <View style={styles.container}>
+            <View style={styles.promptContainer}>
+              <Text style={styles.prompt}>Log In</Text>
+            </View>
+
+            <View style={styles.inputsContainer}>
+              <Input
+                containerStyle={styles.textInput}
+                onChangeText={_email => this.setState({ email: _email })}
+                value={email}
+                autoCapitalize="none"
+                autoCorrect={false}
+                inputContainerStyle={styles.inputStyle}
+                keyboardType="email-address"
+                ref={input => (this.emailInput = input)}
+                onSubmitEditing={() => {
+                  this.setState({ emailValid: this.validateEmail(email) })
+                  this.passwordInput.focus()
+                }}
+                onBlur={() => {
+                  this.setState({ emailValid: this.validateEmail(email) })
+                }}
+                blurOnSubmit={false}
+                errorMessage={
+                  emailValid ? null : 'Please enter a valid email address'
+                }
+                label="Email"
+                labelStyle={styles.labelStyle}
+              />
+              <Input
+                containerStyle={styles.textInput}
+                onChangeText={password => this.setState({ password })}
+                value={password}
+                inputContainerStyle={styles.inputStyle}
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="default"
+                returnKeyType="done"
+                ref={input => (this.passwordInput = input)}
+                blurOnSubmit
+                label="Password"
+                labelStyle={styles.labelStyle}
+              />
+              {this.props.error && (
+                <Text style={styles.error}>
+                  Uh oh! {this.props.error.message}
+                </Text>
+              )}
+              <Button
+                title="Forget your password?"
+                titleStyle={styles.forgetText}
+                type="clear"
+                style={styles.forgetButton}
+              />
+              <Button
+                style={styles.loginButton}
+                title="Login"
+                disabledTitleStyle={styles.loginTitle}
+                disabled={!emailValid || password.length < 4}
+                loading={fetching}
+                onPress={this.onSubmit}
+              />
+            </View>
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
