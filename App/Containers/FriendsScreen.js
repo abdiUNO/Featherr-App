@@ -69,9 +69,7 @@ class FriendsScreen extends Component {
     const { friends } = this.props
 
     friends.map(friend => {
-      this.listenForMessages(friend.id, this.addMessage(), err => {
-        console.log(err)
-      })
+      this.listenForMessages(friend.id, this.addMessage())
     })
   }
 

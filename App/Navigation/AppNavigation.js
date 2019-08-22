@@ -16,9 +16,10 @@ import CliquesScreen from '../Containers/CliquesScreen'
 import FriendsScreen from '../Containers/FriendsScreen'
 import LoginScreen from '../Containers/LoginScreen'
 import AuthLoadingScreen from '../Containers/AuthLoading'
-import ChatScreen from '../Containers/ChatScreen'
-import GroupsScreen from '../Containers/GroupsScreen'
+// import ChatScreen from '../Containers/ChatScreen'
+// import GroupsScreen from '../Containers/GroupsScreen'
 import ChatKitScreen from '../Containers/ChatKitScreen'
+import WelcomeScreen from '../Containers/WelcomeScreen'
 
 import colors from '../Themes/Colors'
 import IconWithBadge from '../Components/IconWithBadge'
@@ -163,7 +164,6 @@ TabNav.navigationOptions = ({ navigation }) => {
 }
 
 const getCurrentRouteName = navigationState => {
-  console.log(navigationState)
   if (!navigationState) {
     return null
   }
@@ -174,6 +174,14 @@ const getCurrentRouteName = navigationState => {
   }
   return route.routeName
 }
+
+const AuthNavigator = createStackNavigator(
+  { WelcomeScreen, LoginScreen },
+  {
+    headerMode: 'none',
+    animationEnabled: true
+  }
+)
 
 const AppNavigator = createStackNavigator(
   { TabNav, Chat: ChatKitScreen },
@@ -210,7 +218,7 @@ const AppNavigator = createStackNavigator(
 const SwitchNavigator = createSwitchNavigator(
   {
     AuthLoadingScreen,
-    LoginScreen,
+    AuthNavigator,
     AppNavigator
   },
   {

@@ -107,7 +107,6 @@ class ChatScreen extends Component {
   get user() {
     const { params } = this.props.navigation.state
     const { user } = this.props
-    console.log(user)
     return {
       _id: user.id,
       name: user.username,

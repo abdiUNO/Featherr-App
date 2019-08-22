@@ -50,7 +50,6 @@ export function* login(api, action) {
       'jwtToken',
       response.data.user.jwtToken
     )
-    console.log(res)
 
     yield put(AuthActions.loginSuccess(response.data))
     yield put(NavigationActions.navigate({ routeName: 'Friends' }))

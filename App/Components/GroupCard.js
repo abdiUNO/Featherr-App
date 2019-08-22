@@ -56,9 +56,9 @@ export default class GroupCard extends Component {
     )
   }
 
-  onItemPress = item => () => {
-    const { props } = this
-    return props.onPress(item)
+  onItemPress = () => {
+    const { item } = this.props
+    return this.props.onPress(item.room)
   }
 
   render() {
@@ -72,7 +72,7 @@ export default class GroupCard extends Component {
           end={{ x: 1, y: 0 }}
           colors={colors}
           style={styles.container}>
-          <TouchableOpacity onPress={this.onItemPress(item)}>
+          <TouchableOpacity onPress={this.onItemPress}>
             <View style={styles.itemContainer}>
               <View style={styles.wrapper}>
                 {this.renderAvatars(item.members)}

@@ -2,22 +2,21 @@ import React, { Component } from 'react'
 import { ScrollView, KeyboardAvoidingView, View } from 'react-native'
 import { connect } from 'react-redux'
 import axios from 'axios' // for making requests to the server
-import GroupCard from '../Components/GroupCard'
-import CliquesAction from '../Redux/CliquesRedux'
 import {
   Placeholder,
   PlaceholderMedia,
   PlaceholderLine,
   Fade
 } from 'rn-placeholder'
-import PlaceholderCard from '../Components/PlaceholderCard'
 import Spinner from 'react-native-loading-spinner-overlay'
+import GroupCard from '../Components/GroupCard'
+import CliquesAction from '../Redux/CliquesRedux'
+import PlaceholderCard from '../Components/PlaceholderCard'
 
 // Styles
 import styles from './Styles/CliquesScreenStyle'
-import AuthActions from '../Redux/AuthRedux'
 
-var gradients = [
+const gradients = [
   ['#36D1DC', '#5B86E5'],
   ['#007adf', '#00ecbc'],
   ['#4481eb', '#04befe'],
@@ -31,21 +30,6 @@ var gradients = [
 const CHAT_SERVER = 'http://localhost:5000'
 
 class CliquesScreen extends Component {
-  joinGroup = () => {
-    const { joinClique } = this.props
-    joinClique()
-  }
-
-  componentDidMount() {
-    this.user_id = this.props.user.id
-
-    this.props.navigation.setParams({
-      joinGroup: this.joinGroup
-    })
-    const { getCliques } = this.props
-    getCliques()
-  }
-
   static renderPlaceHolder() {
     return (
       <View>
@@ -75,19 +59,31 @@ class CliquesScreen extends Component {
     )
   }
 
+  componentDidMount() {
+    this.props.navigation.setParams({
+      joinGroup: this.joinGroup
+    })
+    const { getCliques } = this.props
+    getCliques()
+  }
+
+  joinGroup = () => {
+    const { joinClique } = this.props
+    joinClique()
+  }
+
   enterChat = async room => {
-    console.log(room)
     try {
       const response = await axios.post(`${CHAT_SERVER}/user/permissions`, {
         room_id: room.id,
-        user_id: this.user_id
+        user_id: this.props.user.id
       })
       const { permissions } = response.data
       // eslint-disable-next-line camelcase
       const is_room_admin = permissions.indexOf('room:members:add') !== -1
 
       this.props.navigation.navigate('Chat', {
-        user_id: this.user_id,
+        user_id: this.props.user.id,
         room_id: room.id,
         room_name: '',
         is_room_admin
@@ -108,24 +104,20 @@ class CliquesScreen extends Component {
             color: '#FFF'
           }}
         />
-        <KeyboardAvoidingView behavior="position">
-          {fetching || !groups ? (
-            CliquesScreen.renderPlaceHolder()
-          ) : (
-            <View>
-              {groups.map(group => (
-                <GroupCard
-                  key={group.room.id}
-                  colors={
-                    gradients[Math.floor(Math.random() * gradients.length)]
-                  }
-                  item={group}
-                  onPress={() => this.enterChat(group.room)}
-                />
-              ))}
-            </View>
-          )}
-        </KeyboardAvoidingView>
+        {fetching || !groups ? (
+          CliquesScreen.renderPlaceHolder()
+        ) : (
+          <View>
+            {groups.map(group => (
+              <GroupCard
+                key={group.room.id}
+                colors={gradients[Math.floor(Math.random() * gradients.length)]}
+                item={group}
+                onPress={this.enterChat}
+              />
+            ))}
+          </View>
+        )}
       </ScrollView>
     )
   }

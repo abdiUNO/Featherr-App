@@ -30,7 +30,7 @@ class GroupsScreen extends Component {
 
   async componentDidMount(): void {
     this.user_id = this.props.user.id
-    console.log(this.props.user)
+
     try {
       const response = await axios.post(`${CHAT_SERVER}/rooms`, {
         user_id: this.user_id

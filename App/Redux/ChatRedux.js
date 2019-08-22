@@ -46,7 +46,7 @@ function insertItem(array, action) {
 
 // successful api lookup
 export const addMessage = (state, action) => {
-  console.log(action)
+
   const { room_id, message } = action
   const thread = state.threads[room_id]
     ? state.threads[room_id]
@@ -57,7 +57,7 @@ export const addMessage = (state, action) => {
         }
       }
 
-  console.log(thread)
+
 
   const index = thread.messages.allIds.indexOf(message._id)
 

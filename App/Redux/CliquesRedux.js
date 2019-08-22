@@ -34,7 +34,6 @@ export const CliquesSelectors = {
 
 // request the data from an api
 export const request = (state, action) => {
-  console.log(state)
   const { type } = action
 
   return state.merge({

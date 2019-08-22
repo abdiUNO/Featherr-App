@@ -36,7 +36,6 @@ export function* addFriend(api, action) {
   // const currentData = yield select(FriendsSelectors.getData)
   // make the call to the api
   const response = yield call(api.addFriend, userId)
-  console.log(response)
   // success?
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',

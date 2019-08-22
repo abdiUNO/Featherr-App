@@ -20,7 +20,6 @@ export function* getCliques(api, action) {
   // make the call to the api
   const response = yield call(api.getGroups)
 
-  console.log(response)
 
   // success?
   if (response.ok) {
@@ -35,7 +34,6 @@ export function* getCliques(api, action) {
 export function* joinClique(api, action) {
   const response = yield call(api.joinClique)
 
-  console.log(response)
 
   // success?
   if (response.ok) {
