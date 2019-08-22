@@ -12,7 +12,8 @@ export const reducers = combineReducers({
   auth: require('./AuthRedux').reducer,
   cliques: require('./CliquesRedux').reducer,
   friends: require('./FriendsRedux').reducer,
-  query: require('./QueryRedux').reducer
+  query: require('./QueryRedux').reducer,
+  chat: require('./ChatRedux').reducer
 })
 
 export default () => {

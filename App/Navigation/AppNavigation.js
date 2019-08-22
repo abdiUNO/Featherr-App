@@ -17,7 +17,8 @@ import FriendsScreen from '../Containers/FriendsScreen'
 import LoginScreen from '../Containers/LoginScreen'
 import AuthLoadingScreen from '../Containers/AuthLoading'
 import ChatScreen from '../Containers/ChatScreen'
-//import CliqueSettingsScr
+import GroupsScreen from '../Containers/GroupsScreen'
+import ChatKitScreen from '../Containers/ChatKitScreen'
 
 import colors from '../Themes/Colors'
 import IconWithBadge from '../Components/IconWithBadge'
@@ -175,7 +176,7 @@ const getCurrentRouteName = navigationState => {
 }
 
 const AppNavigator = createStackNavigator(
-  { TabNav, Chat: ChatScreen },
+  { TabNav, Chat: ChatKitScreen },
   {
     defaultNavigationOptions: ({ navigation }) => {
       const { index, routes } = navigation.state

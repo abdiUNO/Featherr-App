@@ -26,7 +26,7 @@ export default class GroupCard extends Component {
   renderAvatars = users => {
     return users.map((user, index) => (
       <Avatar
-        key={user.username}
+        key={user.name}
         containerStyle={{
           left: -10 * index,
           marginRight: users.length === 1 && index === 0 ? 15 : 0,
@@ -44,9 +44,8 @@ export default class GroupCard extends Component {
         <View>
           <Text style={{ ...styles.title }}>
             {item.members.map((user, index) => {
-              if (index === item.members.length - 1)
-                return `${user.username}...`
-              return `${user.username}, `
+              if (index === item.members.length - 1) return `${user.name}...`
+              return `${user.name}, `
             })}
           </Text>
         </View>

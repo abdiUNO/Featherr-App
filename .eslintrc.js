@@ -30,6 +30,7 @@ module.exports = {
     'prettier'
   ],
   rules: {
+    camelcase: ['off'],
     'prettier/prettier': 'error',
     'react/sort-comp': [1],
     'react/prefer-stateless-function': ['off'],

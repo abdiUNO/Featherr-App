@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, KeyboardAvoidingView, View } from 'react-native'
 import { connect } from 'react-redux'
+import axios from 'axios' // for making requests to the server
 import GroupCard from '../Components/GroupCard'
 import CliquesAction from '../Redux/CliquesRedux'
 import {
@@ -26,6 +27,9 @@ var gradients = [
   ['#209cff', '#68e0cf'],
   ['#0acffe', '#495aff']
 ]
+
+const CHAT_SERVER = 'http://localhost:5000'
+
 class CliquesScreen extends Component {
   joinGroup = () => {
     const { joinClique } = this.props
@@ -33,6 +37,8 @@ class CliquesScreen extends Component {
   }
 
   componentDidMount() {
+    this.user_id = this.props.user.id
+
     this.props.navigation.setParams({
       joinGroup: this.joinGroup
     })
@@ -40,7 +46,7 @@ class CliquesScreen extends Component {
     getCliques()
   }
 
-  renderPlaceHolder() {
+  static renderPlaceHolder() {
     return (
       <View>
         <PlaceholderCard>
@@ -69,6 +75,28 @@ class CliquesScreen extends Component {
     )
   }
 
+  enterChat = async room => {
+    console.log(room)
+    try {
+      const response = await axios.post(`${CHAT_SERVER}/user/permissions`, {
+        room_id: room.id,
+        user_id: this.user_id
+      })
+      const { permissions } = response.data
+      // eslint-disable-next-line camelcase
+      const is_room_admin = permissions.indexOf('room:members:add') !== -1
+
+      this.props.navigation.navigate('Chat', {
+        user_id: this.user_id,
+        room_id: room.id,
+        room_name: '',
+        is_room_admin
+      })
+    } catch (get_permissions_err) {
+      console.log('error getting permissions: ', get_permissions_err)
+    }
+  }
+
   render() {
     const { fetching, groups } = this.props
     return (
@@ -81,20 +109,18 @@ class CliquesScreen extends Component {
           }}
         />
         <KeyboardAvoidingView behavior="position">
-          {fetching ? (
-            this.renderPlaceHolder()
+          {fetching || !groups ? (
+            CliquesScreen.renderPlaceHolder()
           ) : (
             <View>
               {groups.map(group => (
                 <GroupCard
-                  key={group.id}
+                  key={group.room.id}
                   colors={
                     gradients[Math.floor(Math.random() * gradients.length)]
                   }
                   item={group}
-                  onPress={() => {
-                    this.props.navigation.navigate('Chat', { chatId: group.id })
-                  }}
+                  onPress={() => this.enterChat(group.room)}
                 />
               ))}
             </View>
@@ -107,6 +133,7 @@ class CliquesScreen extends Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.auth.data.user.user,
     fetching: state.cliques.fetching,
     fetchingKey: state.cliques.fetchingKey,
     groups: state.cliques.groups
