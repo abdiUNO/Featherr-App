@@ -125,7 +125,7 @@ class CliquesScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.auth.data.user.user,
+    user: state.auth.user,
     fetching: state.cliques.fetching,
     fetchingKey: state.cliques.fetchingKey,
     groups: state.cliques.groups

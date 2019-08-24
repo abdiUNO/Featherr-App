@@ -8,7 +8,7 @@ const { Types, Creators } = createActions({
   cliquesSuccess: ['groups'],
   cliquesFailure: null,
   joinCliqueRequest: [],
-  joinCliqueSuccess: ['group'],
+  joinCliqueSuccess: ['data'],
   joinCliqueFailure: null
 })
 
@@ -18,7 +18,7 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  groups: null,
+  groups: [],
   fetching: null,
   fetchingKey: null,
   error: null
@@ -51,20 +51,19 @@ export const success = (state, action) => {
     fetching: false,
     fetchingKey: null,
     error: null,
-    groups
+    groups: groups || []
   })
 }
 
 // successful api lookup
 export const joinSuccess = (state, action) => {
-  const { type } = action
-
-  const { group } = action
+  console.log(action)
+  const { data } = action
   return state.merge({
     fetching: false,
     fetchingKey: null,
     error: null,
-    groups: [group, ...state.groups]
+    groups: [data, ...state.groups]
   })
 }
 

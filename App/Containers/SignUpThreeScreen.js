@@ -7,20 +7,29 @@ import { ScrollView, KeyboardAvoidingView, View } from 'react-native'
 import { Header } from 'react-native-elements'
 import { FormikActions } from 'formik'
 import styles from './Styles/SignUpScreenStyle'
-import FullNameForm from '../Components/FullNameForm'
+import UserNameForm from '../Components/UserNameForm'
 import { Colors } from '../Themes'
+import AuthActions from '../Redux/AuthRedux'
+import { connect } from 'react-redux'
 
 interface FormValues {
   email: string;
   password: string;
 }
 
-class SignUpScreen extends Component {
-  handleSubmit = (values: FormValues, formikBag: FormikActions<FormValues>) => {
+class SignUpThreeScreen extends Component {
+  handleSubmit = async (
+    values: FormValues,
+    formikBag: FormikActions<FormValues>
+  ) => {
+    const { navigation, attemptSignUp } = this.props
+    const { firstName, lastName, email, password } = navigation.state.params
+    const { userName } = values
+
     formikBag.setSubmitting(true)
     // Here you would usually make a call to your API for a login.
+    await attemptSignUp(userName, email, firstName + lastName, password, '1234')
     formikBag.setSubmitting(false)
-    this.props.navigation.navigate('SignUpTwo', values)
   }
 
   render() {
@@ -41,7 +50,7 @@ class SignUpScreen extends Component {
         />
         <KeyboardAvoidingView behavior="position">
           <View style={styles.container}>
-            <FullNameForm
+            <UserNameForm
               navigation={this.props.navigation}
               onSubmit={this.handleSubmit}
             />
@@ -52,4 +61,23 @@ class SignUpScreen extends Component {
   }
 }
 
-export default SignUpScreen
+const mapStateToProps = state => {
+  return {
+    fetching: state.auth.fetching,
+    error: state.auth.error
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    attemptSignUp: (username, email, fullname, password, fcmToken) =>
+      dispatch(
+        AuthActions.authRequest(username, email, fullname, password, fcmToken)
+      )
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUpThreeScreen)

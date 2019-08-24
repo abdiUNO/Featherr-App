@@ -101,7 +101,7 @@ class GroupsScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.auth.data.user.user
+    user: state.auth.user
   }
 }
 

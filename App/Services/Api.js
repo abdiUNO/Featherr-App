@@ -50,6 +50,10 @@ const create = (baseURL, jwtToken) => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
+
+  const setAuthToken = token =>
+    api.setHeader('Authorization', `Bearer ${token}`)
+
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
 
@@ -59,10 +63,10 @@ const create = (baseURL, jwtToken) => {
   const getFriends = () => api.get('friends')
   const addFriend = userId => api.put(`users/${userId}/add`)
 
-  const signUp = (username, email, password, fcmToken) =>
+  const signUp = (username, email, fulname, password, fcmToken) =>
     api.post(
       'users/new',
-      { username, email, password, fcmToken },
+      { username, email, fulname, password, fcmToken },
       { headers: { 'Content-Type': 'application/json' } }
     )
   const login = (email, password) =>
@@ -71,6 +75,11 @@ const create = (baseURL, jwtToken) => {
       { email, password },
       { headers: { 'Content-Type': 'application/json' } }
     )
+
+  const uploadImage = formData =>
+    api.post('upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
 
   const getGroups = () => api.get('chat/')
   const joinClique = () => api.post('chat/find')
@@ -95,6 +104,7 @@ const create = (baseURL, jwtToken) => {
   //
   return {
     // a list of the API functions from step 2
+    setAuthToken,
     getRoot,
     getRate,
     getUser,
@@ -105,7 +115,8 @@ const create = (baseURL, jwtToken) => {
     signUp,
     login,
     getLastMsg,
-    joinClique
+    joinClique,
+    uploadImage
   }
 }
 

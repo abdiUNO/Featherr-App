@@ -20,7 +20,7 @@ import { QueryTypes } from '../Redux/QueryRedux'
 import { startup } from './StartupSagas'
 import { getCliques, joinClique } from './CliquesSagas'
 import { getUserAvatar } from './GithubSagas'
-import { signUp, login } from './AuthSagas'
+import { signUp, login, uploadImage } from './AuthSagas'
 import { getFriends, addFriend } from './FriendsSagas'
 import { queryUsers } from './QuerySagas'
 
@@ -50,6 +50,7 @@ export default function* root() {
     takeLeading(QueryTypes.QUERY_USERS_REQUEST, queryUsers, api),
     takeLatest(FriendsTypes.ADD_FRIEND_REQUEST, addFriend, api),
     takeLatest(AuthTypes.AUTH_REQUEST, signUp, api),
-    takeLatest(AuthTypes.LOGIN_REQUEST, login, api)
+    takeLatest(AuthTypes.LOGIN_REQUEST, login, api),
+    takeLatest(AuthTypes.UPLOAD_REQUEST, uploadImage, api)
   ])
 }

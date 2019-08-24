@@ -31,12 +31,18 @@ export default StyleSheet.create({
     marginTop: hp('2.5%')
   },
   loginButton: {
+    backgroundColor: '#fff',
     borderColor: '#fff',
+    borderRadius: 25,
     borderWidth: 1.4,
-    marginHorizontal: wp('5%')
+    marginHorizontal: wp('5%'),
+    paddingVertical: 12
   },
   signUpButton: {
+    borderColor: '#2d98da',
+    backgroundColor: '#2d98da',
+    borderRadius: 25,
     marginHorizontal: wp('5%'),
-    backgroundColor: '#fff'
+    paddingVertical: 12
   }
 })

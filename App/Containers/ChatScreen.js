@@ -78,8 +78,8 @@ class ChatScreen extends Component {
     ) {
       const bubbleProp = _props
 
-      bubbleProp.currentMessage.user.avatar =
-        'https://feather.sfo2.cdn.digitaloceanspaces.com/'
+      // bubbleProp.currentMessage.user.avatar =
+      //   'https://feather.sfo2.cdn.digitaloceanspaces.com/'
       return <Bubble {...bubbleProp} />
     }
 
@@ -129,7 +129,7 @@ class ChatScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.auth.data.user.user
+    user: state.auth.user
   }
 }
 

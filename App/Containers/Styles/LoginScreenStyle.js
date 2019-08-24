@@ -4,15 +4,22 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen'
-import { ApplicationStyles } from '../../Themes/'
+import { ApplicationStyles, Colors } from '../../Themes/'
 const { height, width } = Dimensions.get('window')
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    marginTop: hp('15%'),
+    marginTop: hp('5%'),
     marginHorizontal: wp('7.5%')
+  },
+  header: {
+    ...human.title2Object,
+    ...systemWeights.semibold,
+    color: Colors.grey1,
+    textAlign: 'center',
+    marginVertical: hp('2.5%')
   },
   image: {
     left: wp('15%'),

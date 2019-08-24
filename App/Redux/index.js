@@ -7,8 +7,6 @@ import ReduxPersist from '../Config/ReduxPersist'
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
   nav: require('./NavigationRedux').reducer,
-  github: require('./GithubRedux').reducer,
-  search: require('./SearchRedux').reducer,
   auth: require('./AuthRedux').reducer,
   cliques: require('./CliquesRedux').reducer,
   friends: require('./FriendsRedux').reducer,
@@ -24,7 +22,7 @@ export default () => {
     finalReducers = persistReducer(persistConfig, reducers)
   }
 
-  let { store, sagasManager, sagaMiddleware } = configureStore(
+  let { store, sagasManager, sagaMiddleware, persistor } = configureStore(
     finalReducers,
     rootSaga
   )
@@ -42,5 +40,5 @@ export default () => {
     })
   }
 
-  return store
+  return { store, persistor }
 }

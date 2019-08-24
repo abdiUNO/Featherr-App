@@ -20,12 +20,12 @@ class WelcomeScreen extends Component {
 
   goToLogin = () => {
     const { navigation } = this.props
-    navigation.navigate('LoginScreen')
+    navigation.navigate('Login')
   }
 
   goToSignUp = () => {
     const { navigation } = this.props
-    navigation.navigate('LoginScreen')
+    navigation.navigate('SignUp')
   }
 
   render() {
@@ -40,16 +40,19 @@ class WelcomeScreen extends Component {
             />
             <View style={styles.buttonsContainer}>
               <Button
-                title="Sign Up"
-                titleStyle={{ color: '#0AADB0' }}
-                buttonStyle={[styles.button, styles.signUpButton]}
+                title="Login"
+                titleStyle={{
+                  color: '#0AADB0',
+                  fontWeight: 'bold',
+                  fontSize: 17
+                }}
+                buttonStyle={[styles.button, styles.loginButton]}
                 onPress={this.goToLogin}
               />
               <Button
-                title="Login"
-                titleStyle={{ color: '#FFF' }}
-                type="outline"
-                buttonStyle={[styles.button, styles.loginButton]}
+                title="Sign Up"
+                titleStyle={{ color: '#FFF', fontWeight: 'bold', fontSize: 17 }}
+                buttonStyle={[styles.button, styles.signUpButton]}
                 onPress={this.goToSignUp}
               />
             </View>

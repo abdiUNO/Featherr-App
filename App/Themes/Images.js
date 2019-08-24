@@ -21,7 +21,8 @@ const images = {
   backButton: require('../Images/Icons/back-button.png'),
   closeButton: require('../Images/Icons/close-button.png'),
   welcome: require('../Images/welcome.png'),
-  featherr_logo: require('../Images/featherr_logo.png')
+  featherr_logo: require('../Images/featherr_logo.png'),
+  signUp: require('../Images/signup.png')
 }
 
 export default images

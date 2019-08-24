@@ -1,27 +1,20 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles, Colors } from '../../Themes/'
+import { human, iOSColors, systemWeights } from 'react-native-typography'
+import { Colors } from '../../Themes'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen'
-import { human, iOSColors, systemWeights } from 'react-native-typography'
-
 export default StyleSheet.create({
-  ...ApplicationStyles.screen,
-  mainContainer: {
-    flex: 1
-  },
   container: {
-    flex: 1,
-    marginTop: hp('5%'),
-    marginHorizontal: wp('7.5%')
+    flex: 1
   },
   header: {
     ...human.title2Object,
     ...systemWeights.semibold,
     color: Colors.grey1,
     textAlign: 'center',
-    marginTop: wp('5%')
+    marginVertical: hp('5%')
   },
   subHeader: {
     ...systemWeights.semibold,
@@ -47,7 +40,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   inputsContainer: {
-    marginTop: hp('25%')
+    marginTop: hp('5%')
   },
   inputContainerStyle: {
     borderColor: Colors.grey5,
@@ -65,20 +58,25 @@ export default StyleSheet.create({
     borderColor: Colors.grey4
   },
   forgetButton: {
-    padding: 0,
-    paddingLeft: 4
+    marginTop: hp('1%'),
+    marginBottom: hp('10%')
   },
-  forgetText: {
-    paddingTop: 0,
-    paddingBottom: 2,
-    ...human.calloutObject,
+  forgetButtonText: {
+    ...human.subheadObject,
     color: '#2089dc',
+    textAlign: 'center',
+    paddingTop: 2,
+    paddingBottom: 1,
     fontWeight: '500'
   },
-  loginButton: {
-    marginHorizontal: wp('5%')
+  submitButton: {
+    backgroundColor: '#23b5b8',
+    borderRadius: 25,
+    marginHorizontal: wp('15%'),
+    marginTop: hp('10%')
   },
-  loginTitle: {
+  submitButtonTitle: {
+    fontSize: 17,
     fontWeight: '500',
     paddingTop: 4,
     paddingBottom: 3

@@ -37,7 +37,7 @@ export function* joinClique(api, action) {
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    yield put(CliquesActions.joinCliqueSuccess(response.data.group))
+    yield put(CliquesActions.joinCliqueSuccess(response.data))
   } else {
     yield put(CliquesActions.joinCliqueFailure(response.data.error))
   }

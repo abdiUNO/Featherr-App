@@ -4,12 +4,15 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  authRequest: ['username', 'email', 'password', 'fcmToken'],
-  authSuccess: ['payload'],
+  authRequest: ['username', 'email', 'fullname', 'password', 'fcmToken'],
+  authSuccess: ['user'],
   authFailure: ['error'],
   loginRequest: ['email', 'password'],
   loginSuccess: ['user'],
   loginFailure: ['error'],
+  uploadRequest: ['formData'],
+  uploadSuccess: ['fileUrl'],
+  uploadFailure: ['error'],
   flushErrors: ['']
 })
 
@@ -22,7 +25,8 @@ export const INITIAL_STATE = Immutable({
   data: null,
   fetching: null,
   payload: null,
-  error: null
+  error: null,
+  user: null
 })
 
 /* ------------- Selectors ------------- */
@@ -41,12 +45,23 @@ export const request = state =>
 
 // successful api lookup
 export const success = (state, action) => {
-  const { payload } = action
-  return state.merge({ fetching: false, error: null, payload })
+  console.log(action)
+  const { user } = action
+  return state.merge({ fetching: false, error: null, user })
 }
 
-const loginSuccess = (state, user) =>
-  state.merge({ fetching: false, error: null, data: user })
+const imageUploadSuccess = (state, action) => {
+  const { fileUrl } = action
+
+  return state.merge({
+    fetching: false,
+    error: null,
+    user: {
+      ...state.user,
+      image: fileUrl
+    }
+  })
+}
 
 // Something went wrong somewhere.
 export const failure = (state, { error }) => {
@@ -64,8 +79,12 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.AUTH_SUCCESS]: success,
   [Types.AUTH_FAILURE]: failure,
 
+  [Types.UPLOAD_REQUEST]: request,
+  [Types.UPLOAD_SUCCESS]: imageUploadSuccess,
+  [Types.UPLOAD_FAILURE]: failure,
+
   [Types.LOGIN_REQUEST]: request,
-  [Types.LOGIN_SUCCESS]: loginSuccess,
+  [Types.LOGIN_SUCCESS]: success,
   [Types.LOGIN_FAILURE]: failure,
   [Types.FLUSH_ERRORS]: flush
 })

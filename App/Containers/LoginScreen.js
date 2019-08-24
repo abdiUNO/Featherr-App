@@ -5,13 +5,14 @@ import {
   KeyboardAvoidingView,
   Text,
   Image,
-  TouchableOpacity
+  Platform
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Input, Button, Header } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome5'
 import AuthActions from '../Redux/AuthRedux'
-import { NavigationActions } from 'react-navigation'
+import EmailPasswordForm from '../Components/EmailPasswordForm'
+import { FormikActions } from 'formik'
+import { NavigationScreenProps } from 'react-navigation'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -19,8 +20,18 @@ import { NavigationActions } from 'react-navigation'
 // Styles
 import styles from './Styles/LoginScreenStyle'
 import Images from '../Themes/Images'
+import { Colors } from '../Themes'
 
-class LoginScreen extends Component {
+interface Props {
+  navigation: NavigationScreenProps<any, any>;
+}
+
+interface FormValues {
+  email: string;
+  password: string;
+}
+
+class LoginScreen extends Component<Props> {
   constructor(props) {
     super(props)
 
@@ -46,6 +57,17 @@ class LoginScreen extends Component {
     attemptLogin(email, password)
   }
 
+  handleSubmit = async (
+    values: FormValues,
+    formikBag: FormikActions<FormValues>
+  ) => {
+    const { attemptLogin } = this.props
+    formikBag.setSubmitting(true)
+    // Here you would usually make a call to your API for a login.
+    await attemptLogin(values.email, values.password)
+    formikBag.setSubmitting(false)
+  }
+
   render() {
     const { email, password, emailValid, showLoading } = this.state
     const { fetching } = this.props
@@ -53,84 +75,32 @@ class LoginScreen extends Component {
     return (
       <ScrollView>
         <Header
-          backgroundColor="#05BEAE"
+          containerStyle={{ borderBottomColor: 'transparent' }}
+          backgroundColor="#FFFFFF"
           placement="left"
           leftComponent={{
             icon: 'chevron-left',
-            color: '#fff',
+            color: Colors.grey,
             underlayColor: 'transparent',
             onPress: () => {
               this.props.navigation.goBack()
             }
           }}
         />
-        <KeyboardAvoidingView behavior="position">
-          <Image style={styles.image} source={Images.welcome} />
-
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <View style={styles.container}>
-            <View style={styles.promptContainer}>
-              <Text style={styles.prompt}>Log In</Text>
-            </View>
-
-            <View style={styles.inputsContainer}>
-              <Input
-                containerStyle={styles.textInput}
-                onChangeText={_email => this.setState({ email: _email })}
-                value={email}
-                autoCapitalize="none"
-                autoCorrect={false}
-                inputContainerStyle={styles.inputStyle}
-                keyboardType="email-address"
-                ref={input => (this.emailInput = input)}
-                onSubmitEditing={() => {
-                  this.setState({ emailValid: this.validateEmail(email) })
-                  this.passwordInput.focus()
-                }}
-                onBlur={() => {
-                  this.setState({ emailValid: this.validateEmail(email) })
-                }}
-                blurOnSubmit={false}
-                errorMessage={
-                  emailValid ? null : 'Please enter a valid email address'
-                }
-                label="Email"
-                labelStyle={styles.labelStyle}
-              />
-              <Input
-                containerStyle={styles.textInput}
-                onChangeText={password => this.setState({ password })}
-                value={password}
-                inputContainerStyle={styles.inputStyle}
-                secureTextEntry
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="default"
-                returnKeyType="done"
-                ref={input => (this.passwordInput = input)}
-                blurOnSubmit
-                label="Password"
-                labelStyle={styles.labelStyle}
-              />
-              {this.props.error && (
-                <Text style={styles.error}>
-                  Uh oh! {this.props.error.message}
-                </Text>
-              )}
-              <Button
-                title="Forget your password?"
-                titleStyle={styles.forgetText}
-                type="clear"
-                style={styles.forgetButton}
-              />
-              <Button
-                style={styles.loginButton}
-                title="Login"
-                disabledTitleStyle={styles.loginTitle}
-                disabled={!emailValid || password.length < 4}
-                loading={fetching}
-                onPress={this.onSubmit}
-              />
-            </View>
+            {this.props.error && (
+              <Text style={styles.error}>
+                Uh oh! {this.props.error.message}
+              </Text>
+            )}
+            <Text style={styles.header}>Log In</Text>
+            <EmailPasswordForm
+              forget
+              navigation={this.props.navigation}
+              onSubmit={this.handleSubmit}
+            />
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
