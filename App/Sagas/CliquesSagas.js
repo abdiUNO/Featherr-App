@@ -20,7 +20,6 @@ export function* getCliques(api, action) {
   // make the call to the api
   const response = yield call(api.getGroups)
 
-
   // success?
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
@@ -34,12 +33,11 @@ export function* getCliques(api, action) {
 export function* joinClique(api, action) {
   const response = yield call(api.joinClique)
 
-
   // success?
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    yield put(CliquesActions.joinCliqueSuccess(response.data.group))
+    yield put(CliquesActions.joinCliqueSuccess(response.data))
   } else {
     yield put(CliquesActions.joinCliqueFailure(response.data.error))
   }

@@ -8,9 +8,10 @@ import {
 
 import React from 'react'
 import { TouchableOpacity, Text, View } from 'react-native'
+import { Icon as ElementIcon } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome5'
 import Sample from '../Containers/Sample'
 import CliquesScreen from '../Containers/CliquesScreen'
 import FriendsScreen from '../Containers/FriendsScreen'
@@ -20,10 +21,13 @@ import AuthLoadingScreen from '../Containers/AuthLoading'
 // import GroupsScreen from '../Containers/GroupsScreen'
 import ChatKitScreen from '../Containers/ChatKitScreen'
 import WelcomeScreen from '../Containers/WelcomeScreen'
+import SignUpScreen from '../Containers/SignUpScreen'
+import SignUpTwoScreen from '../Containers/SignUpTwoScreen'
+import SignUpThreeScreen from '../Containers/SignUpThreeScreen'
 
 import colors from '../Themes/Colors'
 import IconWithBadge from '../Components/IconWithBadge'
-
+import ImageUploadScreen from '../Containers/ImageUploadScreen'
 const TabBarComponent = props => <BottomTabBar {...props} />
 
 const TabNav = createBottomTabNavigator(
@@ -135,26 +139,30 @@ TabNav.navigationOptions = ({ navigation }) => {
       ...props,
       headerRight: (
         <TouchableOpacity
+          style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
           onPress={() => {
             if (params) params.joinGroup()
           }}
-          style={{
-            backgroundColor: '#fff',
-            marginRight: 12,
-            paddingVertical: 3,
-            paddingHorizontal: 5,
-            borderRadius: 20
-          }}
           hitSlop={{ top: 15, bottom: 15, left: 15, right: 5 }}>
-          <Icon
+          <ElementIcon
             style={{
-              fontWeight: 'bold',
-              color: '#0AADB0'
+              color: '#FFF'
             }}
-            name="account-plus"
-            size={18}
+            iconStyle={{ marginRight: 2 }}
+            name="plus"
+            type="font-awesome"
+            size={15}
             color="#fff"
           />
+          <Text
+            style={{
+              color: '#fff',
+              fontWeight: '600',
+              marginRight: 5,
+              fontSize: 16
+            }}>
+            Join
+          </Text>
         </TouchableOpacity>
       )
     }
@@ -176,7 +184,14 @@ const getCurrentRouteName = navigationState => {
 }
 
 const AuthNavigator = createStackNavigator(
-  { WelcomeScreen, LoginScreen },
+  {
+    Welcome: WelcomeScreen,
+    SignUp: SignUpScreen,
+    SignUpTwo: SignUpTwoScreen,
+    SignUpThree: SignUpThreeScreen,
+    ImageUpload: ImageUploadScreen,
+    Login: LoginScreen
+  },
   {
     headerMode: 'none',
     animationEnabled: true

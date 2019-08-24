@@ -184,7 +184,7 @@ class ChatKitScreen extends Component {
       user: {
         _id: sender.id,
         name: sender.name,
-        avatar: `https://ui-avatars.com/api/?background=d88413&color=FFF&name=${sender.name}`
+        avatar: sender.avatarURL
       }
     }
 

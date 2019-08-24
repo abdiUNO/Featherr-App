@@ -8,11 +8,11 @@ import Reactotron from 'reactotron-react-native'
 import { persistStore } from 'redux-persist'
 
 // create our store
-const store = createStore()
+const { store, persistor } = createStore()
 
 Reactotron.onCustomCommand({
   command: 'clear',
-  handler: () => persistStore(store, null).purge(),
+  handler: () => persistor.purge(),
   // Optional settings
   title: 'Clear Storage', // This shows on the button
   description: 'flush async local storage' // This shows below the button

@@ -33,7 +33,6 @@ export const request = state => state.merge({ fetching: true })
 
 // successful api lookup
 export const success = (state, payload) => {
-  console.log(payload)
   const { users } = payload
   return state.merge({ fetching: false, error: null, users })
 }

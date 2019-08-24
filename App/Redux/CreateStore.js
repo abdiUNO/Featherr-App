@@ -42,9 +42,11 @@ export default (rootReducer, rootSaga) => {
     : createStore
   const store = createAppropriateStore(rootReducer, compose(...enhancers))
 
+  let persistor = null
+
   // configure persistStore and check reducer version number
   if (ReduxPersist.active) {
-    Rehydration.updateReducers(store)
+    persistor = Rehydration.updateReducers(store)
   }
 
   // kick off root saga
@@ -53,6 +55,7 @@ export default (rootReducer, rootSaga) => {
   return {
     store,
     sagasManager,
-    sagaMiddleware
+    sagaMiddleware,
+    persistor
   }
 }

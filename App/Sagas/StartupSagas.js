@@ -1,5 +1,6 @@
 import { put, select } from 'redux-saga/effects'
 import GithubActions, { GithubSelectors } from '../Redux/GithubRedux'
+import AuthActions from '../Redux/AuthRedux'
 import { is } from 'ramda'
 
 // exported to make available for tests
@@ -32,4 +33,6 @@ export function* startup(action) {
       }
     })
   }
+
+  yield put(AuthActions.flushErrors())
 }

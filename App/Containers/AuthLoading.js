@@ -15,11 +15,11 @@ class AuthLoadingScreen extends React.Component {
 
   // eslint-disable-next-line no-underscore-dangle
   async _bootstrapAsync() {
-    const { authData, navigation } = this.props
-    if (authData && authData.user) {
+    const { user, navigation } = this.props
+    if (user) {
       navigation.navigate('TabNav')
     } else {
-      navigation.navigate('LoginScreen')
+      navigation.navigate('Welcome')
     }
   }
 
@@ -30,7 +30,7 @@ class AuthLoadingScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { authData: state.auth.data }
+  return { user: state.auth.user }
 }
 
 export default connect(
