@@ -1,0 +1,22 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'Featherr' do
+
+  #Firebase and RNFirebase pods
+  pod 'Firebase/Core'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
+  pod 'Firebase/Messaging'
+
+  # pod 'react-native-config', :path => '../node_modules/react-native-config'
+
+  #React Pods
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'BatchedBridge',
+    'Core',
+    'DevSupport'
+  ]
+
+end

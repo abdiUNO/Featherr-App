@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html
+  style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Actionable emails e.g. reset password</title>
+
+    <style type="text/css">
+      img {
+        max-width: 100%;
+      }
+      body {
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: none;
+        width: 100% !important;
+        height: 100%;
+        line-height: 1.6em;
+      }
+      body {
+        background-color: #f6f6f6;
+      }
+
+      #socials_container {
+        flex: 1;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .user-image {
+        width: 64px;
+        height: 64px;
+        background-position: 50%;
+        background-size: cover;
+      }
+
+      .socialicons,
+      .user-image {
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .socialicons {
+        width: 46px;
+        height: 46px;
+        position: relative;
+      }
+
+      .socialicons:not(:last-of-type) {
+        margin-right: 10px;
+      }
+
+      .email,
+      .facebook,
+      .twitter {
+        position: relative;
+      }
+
+      .email:after,
+      .facebook:after,
+      .twitter:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: block;
+        background-position: 50%;
+        background-size: 16px auto;
+        background-repeat: no-repeat;
+        top: 0;
+        left: 0;
+      }
+
+      .email:after {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmIiB3aWR0aD0iMTI0IiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTEwLjc4NC45OEgxMi43NDVDNi4wMDUuOTguNTUxIDYuNDk1LjU1MSAxMy4yMzVsLS4wNiA3My41M2MwIDYuNzQgNS41MTQgMTIuMjU1IDEyLjI1NCAxMi4yNTVoOTguMDRjNi43NCAwIDEyLjI1NC01LjUxNSAxMi4yNTQtMTIuMjU1di03My41M2MwLTYuNzQtNS41MTQtMTIuMjU1LTEyLjI1NS0xMi4yNTV6bTAgMjQuNTFsLTQ5LjAyIDMwLjYzN0wxMi43NDYgMjUuNDlWMTMuMjM1bDQ5LjAyIDMwLjYzOCA0OS4wMi0zMC42MzhWMjUuNDl6Ii8+PC9zdmc+);
+        background-color: #000000;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .facebook:after {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmIiB3aWR0aD0iNTIiIGhlaWdodD0iMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0zMy42NjcgOTkuNDlWNTQuMTA4SDQ4Ljk2bDIuMjktMTcuNjg2SDMzLjY2NlYyNS4xM2MwLTUuMTIgMS40MjgtOC42MSA4LjgtOC42MWw5LjQwMi0uMDA1Vi42OTdDNTAuMjQyLjQ4MiA0NC42NiAwIDM4LjE2OSAwIDI0LjYxMSAwIDE1LjMzMSA4LjI0MiAxNS4zMzEgMjMuMzc5djEzLjA0M0gwdjE3LjY4NmgxNS4zMzJWOTkuNDloMTguMzM1Ii8+PC9zdmc+);
+        background-size: auto 16px;
+        border-radius: 50%;
+        background-color: #3a5998;
+        display: inline-block;
+      }
+
+      .twitter:after {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmIiB3aWR0aD0iMTIyIiBoZWlnaHQ9Ijk5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMjEuNTY4IDExLjY5NWE0OS44NjkgNDkuODY5IDAgMDEtMTQuMzI1IDMuOTI4YzUuMTUtMy4wODcgOS4xMDQtNy45NzUgMTAuOTY3LTEzLjc5OWE0OS45NDkgNDkuOTQ5IDAgMDEtMTUuODM4IDYuMDUyQTI0LjkxIDI0LjkxIDAgMDA4NC4xNjcgMEM3MC4zOTIgMCA1OS4yMjUgMTEuMTY3IDU5LjIyNSAyNC45NGMwIDEuOTU1LjIyIDMuODU5LjY0NiA1LjY4NC0yMC43MjktMS4wNC0zOS4xMDctMTAuOTctNTEuNDA4LTI2LjA1OWEyNC44MjQgMjQuODI0IDAgMDAtMy4zNzcgMTIuNTRjMCA4LjY1MiA0LjQwNCAxNi4yODYgMTEuMDk2IDIwLjc1OWEyNC44NDEgMjQuODQxIDAgMDEtMTEuMjk3LTMuMTJjLS4wMDIuMTA0LS4wMDIuMjA5LS4wMDIuMzE0IDAgMTIuMDg0IDguNTk3IDIyLjE2NSAyMC4wMDcgMjQuNDU2YTI0Ljk3NSAyNC45NzUgMCAwMS0xMS4yNjQuNDI3YzMuMTc0IDkuOTA5IDEyLjM4NSAxNy4xMiAyMy4yOTkgMTcuMzIxQTUwLjA0NCA1MC4wNDQgMCAwMTUuOTUgODcuOTRjLTIuMDEzIDAtMy45OTktLjExOC01Ljk1LS4zNDggMTEuMDM4IDcuMDc2IDI0LjE0OCAxMS4yMDUgMzguMjMzIDExLjIwNSA0NS44NzUgMCA3MC45NjItMzguMDA1IDcwLjk2Mi03MC45NjNhNzEuOTIgNzEuOTIgMCAwMC0uMDcyLTMuMjI3IDUwLjY5MiA1MC42OTIgMCAwMDEyLjQ0NS0xMi45MSIvPjwvc3ZnPg==);
+        background-color: #54acee;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      @media only screen and (max-width: 640px) {
+        body {
+          padding: 0 !important;
+        }
+        h1 {
+          font-weight: 800 !important;
+          margin: 20px 0 5px !important;
+        }
+        h2 {
+          font-weight: 800 !important;
+          margin: 20px 0 5px !important;
+        }
+        h3 {
+          font-weight: 800 !important;
+          margin: 20px 0 5px !important;
+        }
+        h4 {
+          font-weight: 800 !important;
+          margin: 20px 0 5px !important;
+        }
+        h1 {
+          font-size: 22px !important;
+        }
+        h2 {
+          font-size: 18px !important;
+        }
+        h3 {
+          font-size: 16px !important;
+        }
+        .container {
+          padding: 0 !important;
+          width: 100% !important;
+        }
+        .content {
+          padding: 0 !important;
+        }
+        .content-wrap {
+          padding: 10px !important;
+        }
+        .invoice {
+          width: 100% !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body
+    itemscope
+    itemtype="http://schema.org/EmailMessage"
+    style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em; background-color: #f6f6f6; margin: 0;"
+    bgcolor="#f9f9f9"
+  >
+    <table
+      role="presentation"
+      cellpadding="0"
+      cellspacing="0"
+      style="border-collapse:collapse;border-spacing:0px"
+      align="center"
+      border="0"
+    >
+      <tbody>
+        <tr>
+          <td style="width:189px; padding:40px 0px 20px 0px;">
+            <a
+              href="https://discordapp.com/"
+              target="_blank"
+              data-saferedirecturl="https://www.google.com/url?q=https://discordapp.com/&amp;source=gmail&amp;ust=1571648421254000&amp;usg=AFQjCNEYfZ7JckMkkcTQkikHBMrOOI2XUQ"
+              ><img
+                alt=""
+                title=""
+                height="48"
+                src="http://cdn.featherrapp.com/featherr_logo.png"
+                class="CToWUd"
+            /></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      class="body-wrap"
+      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; background-color: #f6f6f6; margin: 0;"
+      bgcolor="#f9f9f9"
+    >
+      <tr
+        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+      >
+        <td
+          style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;"
+          valign="top"
+        ></td>
+        <td
+          class="container"
+          width="600"
+          style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;"
+          valign="top"
+        >
+          <div
+            class="content"
+            style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; max-width: 600px; display: block; margin: 0 auto; padding: 20px;"
+          >
+            <table
+              class="main"
+              width="100%"
+              cellpadding="0"
+              cellspacing="0"
+              itemprop="action"
+              itemscope
+              itemtype="http://schema.org/ConfirmAction"
+              style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 3px; background-color: #fff; margin: 0; border: 1px solid #e9e9e9;"
+              bgcolor="#fff"
+            >
+              <tr
+                style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+              >
+                <td
+                  class="content-wrap"
+                  style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 20px;"
+                  valign="top"
+                >
+                  <meta
+                    itemprop="name"
+                    content="Confirm Email"
+                    style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; "
+                  />
+                  <table
+                    width="100%"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                  >
+                    <tr
+                      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                    >
+                      <td
+                        class="content-block"
+                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color:#25364D; box-sizing: border-box; font-size: 20px; vertical-align: top; margin: 0; padding: 0 0 15px; font-weight:bold;"
+                        valign="top"
+                      >
+                        Your verification code is:
+                      </td>
+                    </tr>
+                    <tr
+                      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                    >
+                      <td
+                        class="content-block"
+                        itemprop="handler"
+                        itemscope
+                        itemtype="http://schema.org/HttpActionHandler"
+                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 24px; font-weight: bold;  color:#04988b; vertical-align: top; margin: 0; padding: 0 0 35px;"
+                        valign="top"
+                      >
+                        <span
+                          style="border-bottom: #e6e6e6 solid 2px; padding-bottom:5px; "
+                          >{{passcode}}</span
+                        >
+                      </td>
+                    </tr>
+
+                    <tr
+                      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                    >
+                      <td
+                        class="content-block"
+                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;"
+                        valign="top"
+                      >
+                        Hello {{username}}
+                      </td>
+                    </tr>
+
+                    <tr
+                      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                    >
+                      <td
+                        class="content-block"
+                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;"
+                        valign="top"
+                      >
+                        <p>
+                          Please, return to the app and enter the code above to
+                          br verify your identity. <br />
+                          We may need to send you critical information about our
+                          service and it is important that we have an accurate
+                          email address.
+                        </p>
+                      </td>
+                    </tr>
+
+                    <tr
+                      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                    >
+                      <td
+                        class="content-block"
+                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 5px;"
+                        valign="top"
+                      >
+                        Best regards,
+                      </td>
+                    </tr>
+                    <tr
+                      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                    >
+                      <td
+                        class="content-block"
+                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
+                        valign="top"
+                      >
+                        Featherr Team
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <div
+              class="footer"
+              style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 20px;"
+            >
+              <table
+                width="100%"
+                style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+              >
+                <tr
+                  style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                >
+                  <td
+                    class="aligncenter content-block"
+                    style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;"
+                    align="center"
+                    valign="top"
+                  >
+                    <p style="text-align:center; font-weight:bold;">
+                      Follow us
+                    </p>
+                  </td>
+                </tr>
+
+                <tr
+                  style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
+                >
+                  <td
+                    class="aligncenter content-block"
+                    style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;"
+                    align="center"
+                    valign="top"
+                  >
+                    <div id="socials_container" class="col-12">
+                      <a
+                        href="https://twitter.com/FeatherrApp"
+                        target="_blank"
+                        class="socialicons twitter"
+                      ></a>
+                      <a
+                        href="https://twitter.com/FeatherrApp"
+                        target="_blank"
+                        class="socialicons facebook"
+                      ></a>
+                      <a
+                        href="https://twitter.com/FeatherrApp"
+                        target="_blank"
+                        class="socialicons email"
+                      ></a>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </td>
+        <td
+          style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;"
+          valign="top"
+        ></td>
+      </tr>
+    </table>
+  </body>
+</html>
