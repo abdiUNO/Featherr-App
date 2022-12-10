@@ -57,7 +57,7 @@
     "javascript-time-ago": "^2.0.2",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
-    "qs": "^6.8.0",
+    "qs": "^6.9.7",
     "querystringify": "2.1.0",
     "ramda": "^0.26.1",
     "react": "16.9.0",
